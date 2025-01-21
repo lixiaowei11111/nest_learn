@@ -8,6 +8,8 @@ import {
   Query,
   Param,
   Body,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { CreateCatsDTO } from './interface';
 import { CatsService } from './cats.service';
@@ -30,6 +32,9 @@ export class CatsController {
   // id
   @Get('find/:id')
   findOne(@Param('id') id: string): string {
+    if (id === '114514') {
+      throw new HttpException('id is notfound', HttpStatus.FORBIDDEN);
+    }
     console.log('[debug] params', id);
     return `This action returns a  #${id} cat`;
   }

@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 // import { LoggerMiddleware } from './middleware/logger.middleware';
 // import { errorMiddleware } from './middleware/error.middleware';
 // import { HttpExceptionFilter } from './filter/http-exception.filter';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -16,6 +17,7 @@ async function bootstrap() {
   // app.use(errorMiddleware); // https://docs.nestjs.com/middleware#global-middleware
   // app.useGlobalFilters(new HttpExceptionFilter()); //https://docs.nestjs.com/exception-filters#binding-filters
   // app.useGlobalGuards(new AuthGuard(), new RolesGuard());
+  app.useGlobalInterceptors(new LoggingInterceptor());
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

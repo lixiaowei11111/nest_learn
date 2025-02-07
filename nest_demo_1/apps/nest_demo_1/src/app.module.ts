@@ -16,9 +16,12 @@ import { errorMiddleware } from './middleware/error.middleware';
 import { PandaModule } from './panda/panda.module';
 // import { APP_GUARD } from '@nestjs/core';
 // import { RolesGuard } from './guards/roles.guard';
+import { FishModule } from './fish/fish.module';
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 @Module({
-  imports: [CatsModule, DogsModule, PandaModule],
+  imports: [CatsModule, DogsModule, PandaModule, FishModule],
   controllers: [AppController],
   providers: [
     AppService,
@@ -36,6 +39,10 @@ import { PandaModule } from './panda/panda.module';
     //   provide: APP_GUARD,
     //   useClass: RolesGuard,
     // },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
   ],
 })
 export class AppModule implements NestModule {

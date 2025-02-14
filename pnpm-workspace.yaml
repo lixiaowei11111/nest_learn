@@ -1,2 +1,3 @@
 packages:
-  - "nest_demo_1"
+  - "01_nest_demo_overview"
+  - "02_nest_demo_fundamental"

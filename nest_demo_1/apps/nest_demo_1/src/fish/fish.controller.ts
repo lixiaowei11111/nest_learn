@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ValidationPipe,
 } from '@nestjs/common';
 import { FishService } from './fish.service';
 import { CreateFishDto } from './dto/create-fish.dto';
@@ -14,6 +15,7 @@ import { UpdateFishDto } from './dto/update-fish.dto';
 import { UseInterceptors } from '@nestjs/common';
 import { TransformInterceptor } from '../interceptors/transform.interceptor';
 import { CacheInterceptor } from '../interceptors/cache.interceptor';
+import { User } from '../decorators/user.decorator';
 
 @Controller('fish')
 // @UseInterceptors(LoggingInterceptor)
@@ -33,7 +35,12 @@ export class FishController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(
+    @Param('id') id: string,
+    // 自定义Param Decorator使用pipe时,必须把validateCustomDecorators设置为true
+    @User(new ValidationPipe({ validateCustomDecorators: true })) user: string,
+  ) {
+    console.log('[debug] ', user);
     return this.fishService.findOne(+id);
   }
 
